@@ -1,6 +1,6 @@
-const APP_ID = "YOUR APP ID"
-const TOKEN = "YOUR TEMP TOKEN"
-const CHANNEL = "YOUR CHANNEL NAME"
+const APP_ID = "1b6e72d7ae97483a9e48da23f9fde886"
+const TOKEN = "007eJxTYDimwtaWP9P8pOfZd9WPpe6/eZt7mLuNd2722rz7rFxnshQUGAyTzFLNjVLME1MtzU0sjBMtU00sUhKNjNMs01JSLSzMRMqDkusDGRmmxt5nYGJgBEMQn5uhOCM1LTMzviS1uISBgZUBBAAq2CKX"
+const CHANNEL = "shefii_test"
 
 const client = AgoraRTC.createClient({mode:'rtc', codec:'vp8'})
 
@@ -23,9 +23,35 @@ let joinAndDisplayLocalStream = async () => {
     document.getElementById('video-streams').insertAdjacentHTML('beforeend', player)
 
     localTracks[1].play(`user-${UID}`)
+
     
     await client.publish([localTracks[0], localTracks[1]])
+
 }
+
+
+let initiateRTM = async () =>{
+    
+    // await client.join(APP_ID, CHANNEL, TOKEN, null)
+    const channel = await client.createChannel(CHANNEL+'1')
+    await channel.join()
+    let form = document.getElementById('form')
+
+//     form.addEventListener('submit', async (e) =>{
+//         e.preventDefault()
+//         let message = e.target.message.value
+//         await channel.sendMessage({text:message, type:'text'})
+//         form.reset()
+//     })
+
+//     channel.on('ChannelMessage', (message, peerId) => {
+//         console.log('Message:', message)
+//     })
+
+}
+
+initiateRTM()
+
 
 let joinStream = async () => {
     await joinAndDisplayLocalStream()
@@ -96,6 +122,8 @@ let toggleCamera = async (e) => {
         e.target.style.backgroundColor = '#EE4B2B'
     }
 }
+
+
 
 document.getElementById('join-btn').addEventListener('click', joinStream)
 document.getElementById('leave-btn').addEventListener('click', leaveAndRemoveLocalStream)
